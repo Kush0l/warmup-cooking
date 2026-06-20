@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CookAI — AI-Powered Smart Meal Planner</title>
+  <meta name="description" content="Generate personalized daily meal plans, grocery lists, ingredient substitutions, and budget analysis with AI. Built with Google Gemini.">
+  <meta name="theme-color" content="#0a0a12">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'">
+
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍳</text></svg>">
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <!-- Skip Navigation Link -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Background Ambient Orbs -->
+  <div class="bg-orb bg-orb--1" aria-hidden="true"></div>
+  <div class="bg-orb bg-orb--2" aria-hidden="true"></div>
+  <div class="bg-orb bg-orb--3" aria-hidden="true"></div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header__brand">
+      <span class="header__logo" aria-hidden="true">🍳</span>
+      <span class="header__name">CookAI</span>
+    </div>
+    <p class="header__tagline">AI-Powered Meal Planner</p>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main" id="main-content">
+
+    <!-- ==================== Input Section ==================== -->
+    <section class="input-section" id="input-section" aria-label="Meal preferences form">
+      <div class="card input-card">
+        <div class="input-card__header">
+          <h1 class="input-card__title">Plan Your Perfect Day of Meals</h1>
+          <p class="input-card__subtitle">
+            Select your preferences and let AI craft a personalized cooking plan with recipes, a grocery list, and budget analysis.
+          </p>
+        </div>
+
+        <form id="preferences-form" class="form" novalidate>
+          <div class="form__group">
+            <label for="dietary" class="form__label">
+              <span class="form__label-icon" aria-hidden="true">🥗</span>
+              Dietary Preference
+            </label>
+            <div class="select-wrapper">
+              <select id="dietary" name="dietary" class="form__select" required aria-required="true">
+                <option value="" disabled selected>Choose your diet type</option>
+                <option value="Vegetarian">🥬 Vegetarian</option>
+                <option value="Non-Vegetarian">🍖 Non-Vegetarian</option>
+                <option value="Vegan">🌱 Vegan</option>
+                <option value="Keto">🥑 Keto</option>
+                <option value="No Preference">🍽️ No Preference</option>
+              </select>
+              <span class="select-arrow" aria-hidden="true">▾</span>
+            </div>
+          </div>
+
+          <div class="form__group">
+            <label for="cuisine" class="form__label">
+              <span class="form__label-icon" aria-hidden="true">🌍</span>
+              Cuisine Style
+            </label>
+            <div class="select-wrapper">
+              <select id="cuisine" name="cuisine" class="form__select" required aria-required="true">
+                <option value="" disabled selected>Pick your favorite cuisine</option>
+                <option value="Indian">🇮🇳 Indian</option>
+                <option value="Italian">🇮🇹 Italian</option>
+                <option value="Chinese">🇨🇳 Chinese</option>
+                <option value="Mexican">🇲🇽 Mexican</option>
+                <option value="Japanese">🇯🇵 Japanese</option>
+                <option value="Mediterranean">🫒 Mediterranean</option>
+                <option value="Thai">🇹🇭 Thai</option>
+                <option value="American">🇺🇸 American</option>
+                <option value="Mixed">🌏 Mixed / Surprise Me</option>
+              </select>
+              <span class="select-arrow" aria-hidden="true">▾</span>
+            </div>
+          </div>
+
+          <div class="form__row">
+            <div class="form__group form__group--half">
+              <label for="dayType" class="form__label">
+                <span class="form__label-icon" aria-hidden="true">📅</span>
+                Your Day
+              </label>
+              <div class="select-wrapper">
+                <select id="dayType" name="dayType" class="form__select">
+                  <option value="Busy">⚡ Busy — Quick meals</option>
+                  <option value="Moderate" selected>⚖️ Moderate — Balanced</option>
+                  <option value="Relaxed">🧘 Relaxed — Elaborate</option>
+                </select>
+                <span class="select-arrow" aria-hidden="true">▾</span>
+              </div>
+            </div>
+
+            <div class="form__group form__group--half">
+              <label for="servings" class="form__label">
+                <span class="form__label-icon" aria-hidden="true">👥</span>
+                Servings
+              </label>
+              <input type="number" id="servings" name="servings" class="form__input"
+                     min="1" max="10" value="2"
+                     aria-label="Number of servings">
+            </div>
+          </div>
+
+          <button type="submit" id="generate-btn" class="btn btn--primary" aria-label="Generate meal plan">
+            <span class="btn__text">✨ Generate My Meal Plan</span>
+            <span class="btn__spinner" aria-hidden="true"></span>
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <!-- ==================== Loading Section ==================== -->
+    <section class="loading-section hidden" id="loading-section" aria-label="Generating meal plan" aria-live="polite" aria-busy="true">
+      <div class="loading-container">
+        <div class="loading-header">
+          <div class="loading-icon">🧠</div>
+          <h2 class="loading-title">Crafting Your Perfect Menu...</h2>
+          <p class="loading-subtitle">Our AI chef is designing your personalized meal plan</p>
+        </div>
+        <div class="skeleton-grid">
+          <div class="skeleton-card">
+            <div class="skeleton skeleton--sm"></div>
+            <div class="skeleton skeleton--lg"></div>
+            <div class="skeleton skeleton--md"></div>
+          </div>
+          <div class="skeleton-card">
+            <div class="skeleton skeleton--sm"></div>
+            <div class="skeleton skeleton--lg"></div>
+            <div class="skeleton skeleton--md"></div>
+          </div>
+          <div class="skeleton-card">
+            <div class="skeleton skeleton--sm"></div>
+            <div class="skeleton skeleton--lg"></div>
+            <div class="skeleton skeleton--md"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== Results Section ==================== -->
+    <section class="results-section hidden" id="results-section" aria-label="Meal plan results" aria-live="polite">
+
+      <!-- Tab Navigation -->
+      <div class="tabs" role="tablist" aria-label="Meal plan sections">
+        <button role="tab" id="tab-meals" class="tab active" aria-selected="true" aria-controls="panel-meals" tabindex="0">
+          <span class="tab__icon" aria-hidden="true">🍽️</span> Meal Plan
+        </button>
+        <button role="tab" id="tab-grocery" class="tab" aria-selected="false" aria-controls="panel-grocery" tabindex="-1">
+          <span class="tab__icon" aria-hidden="true">🛒</span> Grocery
+        </button>
+        <button role="tab" id="tab-subs" class="tab" aria-selected="false" aria-controls="panel-subs" tabindex="-1">
+          <span class="tab__icon" aria-hidden="true">🔄</span> Substitutions
+        </button>
+        <button role="tab" id="tab-budget" class="tab" aria-selected="false" aria-controls="panel-budget" tabindex="-1">
+          <span class="tab__icon" aria-hidden="true">💰</span> Budget
+        </button>
+        <div class="tab__indicator" aria-hidden="true"></div>
+      </div>
+
+      <!-- Tab Panels -->
+      <div id="panel-meals" class="tab-panel active" role="tabpanel" aria-labelledby="tab-meals"></div>
+      <div id="panel-grocery" class="tab-panel" role="tabpanel" aria-labelledby="tab-grocery" hidden></div>
+      <div id="panel-subs" class="tab-panel" role="tabpanel" aria-labelledby="tab-subs" hidden></div>
+      <div id="panel-budget" class="tab-panel" role="tabpanel" aria-labelledby="tab-budget" hidden></div>
+
+      <!-- Actions -->
+      <div class="results-actions">
+        <button id="regenerate-btn" class="btn btn--secondary" aria-label="Generate a new meal plan">
+          🔄 Generate New Plan
+        </button>
+      </div>
+    </section>
+
+    <!-- ==================== Toast Notification ==================== -->
+    <div class="toast hidden" id="error-toast" role="alert" aria-live="assertive">
+      <span class="toast__icon" aria-hidden="true">⚠️</span>
+      <span class="toast__message" id="toast-message"></span>
+      <button class="toast__close" id="toast-close" aria-label="Dismiss notification">&times;</button>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>Powered by <strong>Google Gemini AI</strong> · Built for <strong>PromptWars</strong> Hackathon</p>
+  </footer>
+
+  <!-- Application Script -->
+  <script src="/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+{
+  "name": "ai-cooking-todo",
+  "version": "1.0.0",
+  "description": "AI-powered personal cooking to-do list that generates meal plans, grocery lists, substitutions, and budget analysis using Google Gemini.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "node --test tests/",
+    "lint": "npx eslint api/ lib/ public/js/"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.24.0",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": ["gemini", "ai", "meal-planner", "cooking", "hackathon"],
+  "license": "MIT"
+}
